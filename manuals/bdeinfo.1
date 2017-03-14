@@ -1,0 +1,87 @@
+.Dd August 31, 2014
+.Dt bdeinfo
+.Os libbde
+.Sh NAME
+.Nm bdeinfo
+.Nd determines information about a BitLocker Drive Encrypted (BDE) volume
+.Sh SYNOPSIS
+.Nm bdeinfo
+.Op Fl k Ar keys
+.Op Fl o Ar offset
+.Op Fl p Ar password
+.Op Fl r Ar password
+.Op Fl s Ar filename
+.Op Fl hvV
+.Va Ar source
+.Sh DESCRIPTION
+.Nm bdeinfo
+is a utility to determine information about a BitLocker Drive Encrypted (BDE) volume
+.Pp
+.Nm bdeinfo
+is part of the
+.Nm libbde
+package.
+.Nm libbde
+is a library to access the BitLocker Drive Encryption (BDE) format
+.Pp
+.Ar source
+is the source file.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl h
+shows this help
+.It Fl k Ar keys
+the full volume encryption key and tweak key formatted in base16 and separated by a : character e.g. FKEV:TWEAK
+.It Fl o Ar offset
+specify the volume offset in bytes
+.It fl p Ar password
+specify the password
+.It Fl r Ar password
+specify the recovery password
+.It Fl s Ar filename
+specify the file containing the startup key.
+typically this file has the extension .BEK
+.It Fl v
+verbose output to stderr
+.It Fl V
+print version
+.El
+.Sh ENVIRONMENT
+None
+.Sh FILES
+None
+.Sh EXAMPLES
+.Bd -literal
+# bdeinfo -p Password /dev/sda1
+bdeinfo 20140403
+
+BitLocker Drive Encryption information:
+	Encryption method:		AES 128-bit
+	Volume identifier:		a31a8153-5dc1-4bc3-a5b8-e6d77a17c4c0
+	Creation time:			Aug 05, 2011 11:04:38.739926900 UTC
+	Description			:MYPC BDE TEST 8/5/2011
+	Number of key protectors:	2
+
+Key protector 0:
+	Identifier:			240c5287-d4a5-4f2d-8d38-06a2e563257f
+	Type:				Password
+
+Key protector 1:
+	Identifier:			e70fad99-e63f-45c1-92e0-1cadabe08ae9
+	Type:				Recovery password
+
+.Ed
+.Sh DIAGNOSTICS
+Errors, verbose and debug output are printed to stderr when verbose output \-v is enabled.
+Verbose and debug output are only printed when enabled at compilation.
+.Sh BUGS
+Please report bugs of any kind to <joachim.metz@gmail.com> or on the project website:
+https://github.com/libyal/libbde/
+.Sh AUTHOR
+These man pages were written by Joachim Metz.
+.Sh COPYRIGHT
+Copyright (C) 2011-2017, Joachim Metz <joachim.metz@gmail.com>.
+This is free software; see the source for copying conditions. There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.Sh SEE ALSO
+.Xr bdemount 1
