@@ -1579,6 +1579,14 @@ on_error:
 	return( -1 );
 }
 
+// bitlocker2john hack
+static void print_hex(unsigned char *str, int len)
+{
+        int i;
+        for (i = 0; i < len; ++i)
+                printf("%02x", str[i]);
+}
+
 /* Reads the volume master key from the metadata
  * Returns 1 if successful, 0 if no key could be obtained or -1 on error
  */
@@ -2165,6 +2173,16 @@ int libbde_metadata_read_volume_master_key(
 
 				goto on_error;
 			}
+
+			// bitlocker2john hack
+			printf("$bitlocker$0$16$");
+			print_hex(metadata->password_volume_master_key->stretch_key->salt, 16);
+			printf("$%d$%d$", 0x100000, 12); // fixed iterations , fixed nonce size
+			print_hex(metadata->password_volume_master_key->aes_ccm_encrypted_key->nonce, 12);
+			printf("$%d$", metadata->password_volume_master_key->aes_ccm_encrypted_key->data_size);
+			print_hex(metadata->password_volume_master_key->aes_ccm_encrypted_key->data, metadata->password_volume_master_key->aes_ccm_encrypted_key->data_size);
+			puts("\n");
+
 			if( libbde_password_calculate_key(
 			     password_keep->password_hash,
 			     32,
